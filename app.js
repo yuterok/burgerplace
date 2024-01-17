@@ -91,7 +91,6 @@ function showDishes(array){
     menu.innerHTML = ''
     array.forEach(dish => {
         let search = cart.find((element) => element.id == dish.id) || []
-        console.log(search)
         menu.innerHTML += `
         <div class="dish" id="dish-id-${dish.id}">
             <img src="${dish.img}" alt="">
@@ -214,19 +213,21 @@ let increment = (id) => {
     }else{
         search.count +=1;
     }
-    localStorage.setItem("data", JSON.stringify(cart))
     update(id)
+    localStorage.setItem("data", JSON.stringify(cart))
 }
 
 let decrement = (id) => {
     let search = cart.find((x)=> x.id === id);
-    if (search.count === 0){
-        return;
-    }else{
+    if(search === undefined) return
+    else if (search.count === 0) return
+    else{
         search.count -=1;
     }
-    localStorage.setItem("data", JSON.stringify(cart))
+    
     update(id)
+    cart = cart.filter((x) => x.count !== 0)
+    localStorage.setItem("data", JSON.stringify(cart))
 }
 
 
