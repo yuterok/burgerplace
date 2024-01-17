@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="src/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -11,13 +11,12 @@
     <title>BurgerPlace</title>
 </head>
 <body>
-    <div class="container">
+    <div class="container" id="container" >
         <nav>
             <a href="index.html" class="logo">
                 BurgerPlace
             </a>
             <div class="container">
-
                 <div class="nav_links">
                     <a class="nav_link active" href="">
                         <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40">
@@ -121,77 +120,36 @@
                 <button class="address_change_btn">Изменить</button>
             </div>
             <h2>Ваш заказ</h2>
-            <div id="cart" class="order_details">
-                <div class="order_details_product">
-                    <img src="img/menu/classic.png" alt="">
-                    <div class="order_details_text">
-                        <div class="order_details_title">
-                            Бургер Классика
-                        </div>
-                        <div class="order_details_quantity">
-                            x1
-                        </div>
-                    </div>
-                    <div class="order_details_price">
-                        $5.59
-                    </div>
-                </div>
-                <div class="order_details_product">
-                    <img src="img/menu/classic.png" alt="">
-                    <div class="order_details_text">
-                        <div class="order_details_title">
-                            Бургер Классика
-                        </div>
-                        <div class="order_details_quantity">
-                            x1
-                        </div>
-                    </div>
-                    <div class="order_details_price">
-                        $5.59
-                    </div>
-                </div>
-                <div class="order_details_product">
-                    <img src="img/menu/classic.png" alt="">
-                    <div class="order_details_text">
-                        <div class="order_details_title">
-                            Бургер Классика
-                        </div>
-                        <div class="order_details_quantity">
-                            x1
-                        </div>
-                    </div>
-                    <div class="order_details_price">
-                        $5.59
-                    </div>
-                </div>
-                <div class="order_details_product">
-                    <img src="img/menu/classic.png" alt="">
-                    <div class="order_details_text">
-                        <div class="order_details_title">
-                            Бургер Классика
-                        </div>
-                        <div class="order_details_quantity">
-                            x1
-                        </div>
-                    </div>
-                    <div class="order_details_price">
-                        $5.59
-                    </div>
-                </div>
-            </div>
-            <hr>
-            <div class="service_tax">
-                <div class="service_title">Сервисный сбор</div>
-                <div class="service_price">$1</div>
-            </div>
-            <div class="total">
-                <div class="total_title">Итого</div>
-                <div class="total_price">$202.00</div>
-            </div>
-            <button class="checkout_btn">Оформить заказ</button>
+            <div id="cart" class="order_details"></div>
+            <div id="order_summary"></div>
         </div>
     </div>
 
-    <script src="app.js"></script>
+
+    <dialog id="modalForm" class="modalWindow">
+        <button id="close-form-btn" onclick="window.modalForm.close();"><i class="bi bi-x"></i></button>
+        <form>
+            Имя
+            <input type="text" placeholder="Иван">
+            <input type="tel" placeholder="+7 (900) 123-45-67" pattern="\+7\s?[\(]{0,1}9[0-9]{2}[\)]{0,1}\s?\d{3}[-]{0,1}\d{2}[-]{0,1}\d{2}">
+            Выберите цвет:
+            <div class="radio">
+                <input type="radio" name="color" value="белый">Доставка
+                <input type="radio" name="color" value="бежевый">Самовывоз
+            </div>
+            Количество приборов:
+            <input type="number" value="1" min="0">
+            Промокод
+            <input type="text" name="comment" maxlength="20" placeholder="">
+            Комментарий к заказу:
+            <input type="text" name="comment" maxlength="2000" placeholder="">
+            <input class="checkout_btn" type="submit" value="Оформить заказ" onclick="alert('Заказ отправлен!')">
+        </form>
+    </dialog>
+
+    <script src="src/data.js"></script>
+    <script src="src/app.js"></script>
+    <script src="src/cart.js"></script>
+
 </body>
 </html>

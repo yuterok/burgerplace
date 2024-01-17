@@ -2,90 +2,7 @@ let menu = document.getElementById('menu')
 
 let cart = JSON.parse(localStorage.getItem("data")) || []
 
-
-let menuItemsData = 
-    [{id: "1",
-    name: "Бургер Классика",
-    price: "359",
-    img: "img/menu/classic.png",
-    category: "burger"},
-    {id: "2",
-    name: "Бургер BBQ",
-    price: "329",
-    img: "img/menu/bbq.png",
-    category: "burger"},
-    {id: "3",
-    name: "Бургер Итальянский",
-    price: "389",
-    img: "img/menu/italian.png",
-    category: "burger"},
-    {id: "4",
-    name: "Бургер Грибной",
-    price: "389",
-    img: "img/menu/mushroom.png",
-    category: "burger"},
-    {id: "5",
-    name: "Пицца Пепперони",
-    price: "599",
-    img: "img/menu/pizza pepperoni.png",
-    category: "pizza"},
-    {id: "6",
-    name: "Пицца BBQ",
-    price: "599",
-    img: "img/menu/pizza bbq.png",
-    category: "pizza"},
-    {id: "7",
-    name: "Пицца Маргарита",
-    price: "399",
-    img: "img/menu/pizza margarita.png",
-    category: "pizza"},
-    {id: "8",
-    name: "Пицца 4 сыра",
-    price: "499",
-    img: "img/menu/pizza cheese.png",
-    category: "pizza"},
-    {id: "9",
-    name: "Чай Rich с манго",
-    price: "99",
-    img: "img/menu/tea rich mango.png",
-    category: "drinks"},
-    {id: "10",
-    name: "Добрый Cola",
-    price: "99",
-    img: "img/menu/cola.png",
-    category: "drinks"},
-    {id: "11",
-    name: "Чай Rich с лимоном",
-    price: "99",
-    img: "img/menu/tea rich lemon.png",
-    category: "drinks"},
-    {id: "12",
-    name: "Добрый апельсин",
-    price: "99",
-    img: "img/menu/orange.png",
-    category: "drinks"},
-    {id: "13",
-    name: "Куриные ножки",
-    price: "249",
-    img: "img/menu/fried legs.png",
-    category: "chicken"},
-    {id: "14",
-    name: "Куриные крылышки",
-    price: "249",
-    img: "img/menu/fried wings.png",
-    category: "chicken"},
-    {id: "15",
-    name: "Куриные стрипсы",
-    price: "249",
-    img: "img/menu/strips.png",
-    category: "chicken"},
-    {id: "16",
-    name: "Куриные наггетсы",
-    price: "249",
-    img: "img/menu/nuggets.png",
-    category: "chicken"},
-    
-]
+showPopular()
 
 function showDishes(array){
     menu.innerHTML = ''
@@ -121,7 +38,6 @@ function showPopular(){
     showDishes(cat);
 }
 
-showPopular()
 
 // показать всё ▼ ▼ ▼
 function showAllDishes(){
@@ -214,6 +130,8 @@ let increment = (id) => {
         search.count +=1;
     }
     update(id)
+    generateCartItems()
+    totalAmount()
     localStorage.setItem("data", JSON.stringify(cart))
 }
 
@@ -227,15 +145,28 @@ let decrement = (id) => {
     
     update(id)
     cart = cart.filter((x) => x.count !== 0)
+    generateCartItems()
+    totalAmount()
     localStorage.setItem("data", JSON.stringify(cart))
 }
 
-
-let cartEl = document.getElementById('cart')
-
+let deleteItem = (id) => {
+    let search = cart.find((x)=> x.id === id);
+    if(search === undefined) return
+    else if (search.count === 0) return
+    else{
+        search.count = 0;
+    }
+    update(id)
+    cart = cart.filter((x) => x.count !== 0)
+    generateCartItems()
+    totalAmount()
+    localStorage.setItem("data", JSON.stringify(cart))
+}
 let update =(id)=> {
     let search = cart.find((x)=> x.id === id)
     document.getElementById(id).innerHTML = search.count
+    generateCartItems()
 }
 
 let promo = document.querySelector('.promo');
@@ -243,3 +174,102 @@ let promo = document.querySelector('.promo');
 function closeWindow(element){
     element.classList.add('closed');
 }
+
+// cart
+
+let cartEl = document.getElementById('cart')
+
+let orderSummaryEl = document.getElementById('order_summary')
+
+let generateCartItems = () => {
+    if(cart.length !==0){
+        cartEl.innerHTML = cart.map((x) => {
+            let {id, count} = x
+
+            let search = menuItemsData.find((y) => y.id == id) || []
+            let {img, name, price} = search
+            return `
+            <div class="order_details_product">
+            <img src="${img}" alt="">
+            <div class="order_details_text">
+                <div class="order_details_title">
+                    ${name}
+                </div>
+                <div class="order_details_quantity">
+                    x${count}
+                </div>
+            </div>
+            <div class="order_details_price">${price*count}₽</div>
+            <div class="dish_buttons">
+            <button onclick="decrement(${id})" class="dish_button minus">
+                <i class="bi bi-dash"></i>
+            </button>
+            <button onclick="increment(${id})" class="dish_button plus">
+                <i class="bi bi-plus"></i>
+            </button>
+            </div>
+            <button onclick="deleteItem(${id})"><i class="bi bi-x dish_button close_button"></i></button>
+            </div>
+            `
+        }).join('')
+
+    }else{
+        cartEl.innerHTML = `
+        <div class="cart_empty_message"> Корзина пуста. <br> Скорее заказывайте нашу вкусную еду!</div>
+        `
+        orderSummaryEl.style.display = "none";
+    }
+}
+
+generateCartItems()
+
+let totalAmount = ()=>{
+    if(cart.length !==0){
+        let amount = cart.map((x)=>{
+            let {id, count} = x
+            let search = menuItemsData.find((y)=>y.id == id) || []
+            return count * search.price;
+        }).reduce((x,y)=>x+y, 0)
+        console.log(amount)
+
+        orderSummaryEl.style.display = 'block'
+        orderSummaryEl.innerHTML = `
+        <hr>
+        <div class="service_tax">
+            <div class="service_title">Сервисный сбор</div>
+            <div class="service_price">100₽</div>
+        </div>
+        <div class="total">
+            <div class="total_title">Итого</div>
+            <div id='sum' class="total_price">${amount + 100}</div>
+        </div>
+        <button id="checkout_btn" class="checkout_btn" onclick="window.modalForm.showModal()" >Оформить заказ</button>
+        `
+    } else return
+}
+totalAmount()
+
+// let modalForm = document.getElementById('modalForm')
+
+// $(document).click(function (e) {
+//     if ($(e.target).is(modalForm) {
+//         modalForm.style.display = 'none'
+//     }
+// });
+
+let modalForm = document.getElementById('modalForm')
+
+$(document).click(function (e) {
+    if ($(e.target).is('.modalForm')) {
+        window.modalForm.close()
+    }
+});
+function showModal() {
+    $(".modalForm").fadeIn(300)
+    $('body').css({'overflow': 'hidden'})
+};
+function closeModal() {
+    $(".modalForm").fadeOut(300)
+    $('body').css({'overflow': 'auto'})
+    $('input[type=tel]').val('');
+};
