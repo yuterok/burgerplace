@@ -2,6 +2,7 @@ let menu = document.getElementById('menu')
 
 let cart = JSON.parse(localStorage.getItem("data")) || []
 
+
 let menuItemsData = 
     [{id: "1",
     name: "Бургер Классика",
@@ -89,6 +90,8 @@ let menuItemsData =
 function showDishes(array){
     menu.innerHTML = ''
     array.forEach(dish => {
+        let search = cart.find((element) => element.id == dish.id) || []
+        console.log(search)
         menu.innerHTML += `
         <div class="dish" id="dish-id-${dish.id}">
             <img src="${dish.img}" alt="">
@@ -98,7 +101,9 @@ function showDishes(array){
                 <button onclick="decrement(${dish.id})" class="dish_button minus">
                     <i class="bi bi-dash"></i>
                 </button>
-                <span id=${dish.id} class="dish_button quantity">0</span>
+                <span id=${dish.id} class="dish_button quantity">
+                ${search.count === undefined ? 0 : search.count}
+                </span>
                 <button onclick="increment(${dish.id})" class="dish_button plus">
                     <i class="bi bi-plus"></i>
                 </button>
@@ -109,7 +114,6 @@ function showDishes(array){
 }
 
 let categoryName = document.getElementById('cat-text')
-
 
 function showPopular(){
     let cat = menuItemsData.filter(function (dish){
@@ -123,7 +127,7 @@ showPopular()
 // показать всё ▼ ▼ ▼
 function showAllDishes(){
     showDishes(menuItemsData);
-    categoryName.innerHTML = 'Все блюда'
+    categoryName.innerHTML = "Все блюда"
 }
 
 function showPizzas(){
@@ -231,4 +235,10 @@ let cartEl = document.getElementById('cart')
 let update =(id)=> {
     let search = cart.find((x)=> x.id === id)
     document.getElementById(id).innerHTML = search.count
+}
+
+let promo = document.querySelector('.promo');
+
+function closeWindow(element){
+    element.classList.add('closed');
 }
