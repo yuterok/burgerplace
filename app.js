@@ -1,6 +1,6 @@
 let menu = document.getElementById('menu')
 
-let cart = []
+let cart = JSON.parse(localStorage.getItem("data")) || []
 
 let menuItemsData = 
     [{id: "1",
@@ -210,7 +210,7 @@ let increment = (id) => {
     }else{
         search.count +=1;
     }
-
+    localStorage.setItem("data", JSON.stringify(cart))
     update(id)
 }
 
@@ -221,7 +221,7 @@ let decrement = (id) => {
     }else{
         search.count -=1;
     }
-
+    localStorage.setItem("data", JSON.stringify(cart))
     update(id)
 }
 
@@ -231,19 +231,4 @@ let cartEl = document.getElementById('cart')
 let update =(id)=> {
     let search = cart.find((x)=> x.id === id)
     document.getElementById(id).innerHTML = search.count
-    // console.log(cart)
-    // cartEl.innerHTML = ''
-    // cart.forEach(dish => {
-    //     cartEl.innerHTML += `
-    //     <div class="order_details_product">
-    //     <img src="img/menu/${dish.img}" alt="">
-    //     <div class="order_details_text">
-    //         <div class="order_details_title">${dish.id}</div>
-    //         <div class="order_details_quantity">
-    //             x${dish.count}
-    //         </div>
-    //     </div>
-    //     <div class="order_details_price">₽${dish.price}</div>
-    //     `
-    // });
 }
