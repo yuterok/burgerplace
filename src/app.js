@@ -241,7 +241,7 @@ let totalAmount = ()=>{
         </div>
         <div class="total">
             <div class="total_title">Итого</div>
-            <div id='sum' class="total_price">${amount + 100}</div>
+            <div id='sum' class="total_price">${amount + 100} ₽</div>
         </div>
         <button id="checkoutBtn" class="checkout_btn" onclick="modalFormShow()">Оформить заказ</button>
         `

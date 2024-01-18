@@ -147,6 +147,8 @@ nav .container{
     border-radius: 16px;
     /* background-color: var(--yellow); */
     background-image: url('../img/banner.png');
+    background-size: contain;
+    background-repeat: no-repeat;
 }
 
 .banner_text{
@@ -504,6 +506,9 @@ input:focus-visible{
     }
     .main_banner{
         height: 200px;
+    }
+    .banner_text{
+        font-size: 24px;
     }
     .order_details_product img{
         height: 50px;
