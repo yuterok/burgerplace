@@ -79,4 +79,9 @@ let menuItemsData =
     price: "249",
     img: "img/menu/nuggets.png",
     category: "chicken"},
+    {id: "17",
+    name: "Креветки",
+    price: "249",
+    img: "img/menu/shrimps.png",
+    category: "fish"},
 ]

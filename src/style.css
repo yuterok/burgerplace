@@ -140,13 +140,24 @@ nav .container{
 }
 
 
-.main_promo{
+.main_banner{
     margin: 40px 0;
     height: 240px;
+    width: 100%;
     border-radius: 16px;
-    background-color: var(--yellow);
+    /* background-color: var(--yellow); */
+    background-image: url('../img/banner.png');
 }
 
+.banner_text{
+    position: relative;
+    top: 30px;
+    line-height: 1.5;
+    left: 50px;
+    color: white;
+    font-weight: 700;
+    font-size: 32px;
+}
 .categories_top{
     display: flex;
     justify-content: space-between;
@@ -402,6 +413,7 @@ transition: 0.3s;
     margin: auto;
     background-color: white;
     padding: 45px;
+    padding-bottom: 25px;
     border: none;
     border-radius: 16px;
     width: 500px;
@@ -411,19 +423,22 @@ transition: 0.3s;
 .modalWindow form{
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 10px;
 }
+
+.modalWindow h2{
+text-align: center;
+padding-bottom: 10px;
+}
+
 #close-form-btn{
     position: absolute;
     top: 0;
     right: 0;
-    color: red;
-    color: white;
     padding: 10px;
     border: none;
     border-radius: 15px;
     cursor: pointer;
-    font-weight: 500;
 }
 
 #close-form-btn:hover{
@@ -436,16 +451,39 @@ input{
     padding: 5px;
     border: 1.5px solid var(--gray);
     border-radius: 10px;
+    margin-bottom: 10px;
 }
 input:focus-visible{
     border: 1.5px solid var(--yellow);
 }
 
-
-.radio{
-    margin: auto;
+.radioBlock{
+    display: flex;
+    justify-content: space-around;
 }
 
+.radio{
+    cursor: pointer;
+}
+
+.promocodeBlock{
+    display: flex;
+    
+    gap: -5px;
+}
+.promocode_box{
+    height: 35px;
+    width: 70%;
+    border-radius:  16px 0 0 16px;
+}
+.promocode_btn{
+    height: 35px;
+    width: 30%;
+    color: white;
+    border-radius:  0 16px 16px 0;
+    font-weight: 500;
+    background-color: var(--yellow);
+}
 
 @media (max-width: 1700px){
     .menu{
@@ -464,7 +502,7 @@ input:focus-visible{
     .category img{
         height: 30px;
     }
-    .main_promo{
+    .main_banner{
         height: 200px;
     }
     .order_details_product img{
